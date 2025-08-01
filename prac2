@@ -1,0 +1,551 @@
+Microsoft Windows [Version 10.0.19045.6093]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 9.4\bin>mysql -h localhost -u root -p
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 9.4.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show database
+    ->
+    -> ^C
+mysql> create database product
+    -> ;
+ERROR 1007 (HY000): Can't create database 'product'; database exists
+mysql> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| bank               |
+| information_schema |
+| inventory          |
+| mysql              |
+| number             |
+| performance_schema |
+| product            |
+| student            |
+| sys                |
++--------------------+
+9 rows in set (0.398 sec)
+
+mysql> create database product1;
+Query OK, 1 row affected (0.156 sec)
+
+mysql> use product1;
+Database changed
+mysql> create table product pid int PRIMEARY key,pname varchar(20), price int,discount int,manuf_name varchar(20),batch_no int;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pid int PRIMEARY key,pname varchar(20), price int,discount int,manuf_name varcha' at line 1
+mysql> use product
+Database changed
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select *;
+ERROR 1096 (HY000): No tables used
+mysql> show tables
+    ->
+    -> ;
++-------------------+
+| Tables_in_product |
++-------------------+
+| info              |
++-------------------+
+1 row in set (0.140 sec)
+
+mysql> select * from Tables_in_produt;
+ERROR 1146 (42S02): Table 'product.tables_in_produt' doesn't exist
+mysql> select * from info;
+Empty set (0.120 sec)
+
+mysql> use product1
+Database changed
+mysql> create table product pid int primary key,pname varchar(20),price int, discount int, mfn varchar(20);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pid int primary key,pname varchar(20),price int, discount int, mfn varchar(20)' at line 1
+mysql> create table product (pid int primary key,pname varchar(20),price int, discount int, mfn varchar(20));
+Query OK, 0 rows affected (0.347 sec)
+
+mysql> create table customer(cid primary key,cname varchar(20),caddress varchar(20),contact int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary key,cname varchar(20),caddress varchar(20),contact int)' at line 1
+mysql> create table customer(cid int primary key,cname varchar(20),caddress varchar(20),contact int);
+Query OK, 0 rows affected (0.293 sec)
+
+mysql> create table purchase (puid int primary key, cid int,pid int,qty int,pdate date, Foreign key(pid) reference product(pid),foreign key(cid) reference customer(cid));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference product(pid),foreign key(cid) reference customer(cid))' at line 1
+mysql> create table purchase (puid int primary key, cid int,pid int,qty int,pdate date, Foreign key(pid) references product(pid),foreign key(cid) references customer(cid));
+Query OK, 0 rows affected (0.736 sec)
+
+mysql> select * from product
+    -> ;
+Empty set (0.012 sec)
+
+mysql> select name,pname,qty,pdate from customer,product,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select * from Tables_in_product;
+ERROR 1146 (42S02): Table 'product1.tables_in_product' doesn't exist
+mysql> select name,pname,qty,pdate from customer,product,purchase where cid = puid and pid = puid;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select cname,pname,qty,pdate from customer,product,purchase where cid = puid and pid = puid;
+ERROR 1052 (23000): Column 'cid' in where clause is ambiguous
+mysql> SELECT customer.cname, product.pname, purchase.qty, purchase.pdate
+    -> FROM customer
+    -> JOIN purchase ON customer.cid = purchase.cid
+    -> JOIN product ON product.pid = purchase.pid;
+Empty set (0.007 sec)
+
+mysql> -- Insert into product
+Query OK, 0 rows affected (0.003 sec)
+
+mysql> INSERT INTO product VALUES (1, 'Laptop', 60000, 10, 'HP');
+Query OK, 1 row affected (0.171 sec)
+
+mysql> INSERT INTO product VALUES (2, 'Mouse', 500, 5, 'Logitech');
+Query OK, 1 row affected (0.027 sec)
+
+mysql>
+mysql> -- Insert into customer
+Query OK, 0 rows affected (0.002 sec)
+
+mysql> INSERT INTO customer VALUES (101, 'Ravi', 'Delhi', 9876543210);
+ERROR 1264 (22003): Out of range value for column 'contact' at row 1
+mysql> INSERT INTO customer VALUES (102, 'Priya', 'Mumbai', 9123456780);
+ERROR 1264 (22003): Out of range value for column 'contact' at row 1
+mysql>
+mysql> -- Insert into purchase
+Query OK, 0 rows affected (0.001 sec)
+
+mysql> INSERT INTO purchase VALUES (1, 101, 1, 1, '2025-08-01');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`product1`.`purchase`, CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`))
+mysql> INSERT INTO purchase VALUES (2, 102, 2, 2, '2025-08-01');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`product1`.`purchase`, CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`cid`) REFERENCES `customer` (`cid`))
+mysql> ALTER TABLE customer MODIFY contact BIGINT;
+Query OK, 0 rows affected (0.726 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO customer VALUES (101, 'Ravi', 'Pune', 123456);
+Query OK, 1 row affected (0.089 sec)
+
+mysql> INSERT INTO customer VALUES (101, 'Ravi', 'Mumbai', 0987654);
+ERROR 1062 (23000): Duplicate entry '101' for key 'customer.PRIMARY'
+mysql> INSERT INTO customer VALUES (102, 'Sham', 'Mumbai', 0987654);
+Query OK, 1 row affected (0.156 sec)
+
+mysql> INSERT INTO product VALUES (1, 'Laptop', 60000, 10, 'HP');
+ERROR 1062 (23000): Duplicate entry '1' for key 'product.PRIMARY'
+mysql> INSERT INTO product VALUES (2, 'Laptop', 60000, 10, 'HP');
+ERROR 1062 (23000): Duplicate entry '2' for key 'product.PRIMARY'
+mysql> select * from product;
++-----+--------+-------+----------+----------+
+| pid | pname  | price | discount | mfn      |
++-----+--------+-------+----------+----------+
+|   1 | Laptop | 60000 |       10 | HP       |
+|   2 | Mouse  |   500 |        5 | Logitech |
++-----+--------+-------+----------+----------+
+2 rows in set (0.004 sec)
+
+mysql> INSERT INTO purchase VALUES (1, 101, 1, 1, '2025-08-01');
+Query OK, 1 row affected (0.096 sec)
+
+mysql> INSERT INTO purchase VALUES (2, 102, 2, 2, '2025-08-01');
+Query OK, 1 row affected (0.089 sec)
+
+mysql> select * from purchase;
++------+------+------+------+------------+
+| puid | cid  | pid  | qty  | pdate      |
++------+------+------+------+------------+
+|    1 |  101 |    1 |    1 | 2025-08-01 |
+|    2 |  102 |    2 |    2 | 2025-08-01 |
++------+------+------+------+------------+
+2 rows in set (0.005 sec)
+
+mysql> select * from customer;
++-----+-------+----------+---------+
+| cid | cname | caddress | contact |
++-----+-------+----------+---------+
+| 101 | Ravi  | Pune     |  123456 |
+| 102 | Sham  | Mumbai   |  987654 |
++-----+-------+----------+---------+
+2 rows in set (0.005 sec)
+
+mysql> select * from product
+    -> ;
++-----+--------+-------+----------+----------+
+| pid | pname  | price | discount | mfn      |
++-----+--------+-------+----------+----------+
+|   1 | Laptop | 60000 |       10 | HP       |
+|   2 | Mouse  |   500 |        5 | Logitech |
++-----+--------+-------+----------+----------+
+2 rows in set (0.005 sec)
+
+mysql> create view v2 as cname,pname,qty,pdate from customer,product,purchase;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cname,pname,qty,pdate from customer,product,purchase' at line 1
+mysql> create view v1 as cname,pname,qty,pdate from customer,product,purchase;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cname,pname,qty,pdate from customer,product,purchase' at line 1
+mysql> create view v1 as cname,pname,qty,pdate from customer,product,purchase;^C
+mysql> create view v1 as select *.cname,*.pname,*.qty;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.cname,*.pname,*.qty' at line 1
+mysql> CREATE VIEW v1 AS
+    -> SELECT customer.cname, product.pname, purchase.qty, purchase.pdate
+    -> FROM customer, product, purchase
+    -> WHERE customer.cid = purchase.cid
+    ->   AND product.pid = purchase.pid;
+Query OK, 0 rows affected (0.120 sec)
+
+mysql> select * from v1;
++-------+--------+------+------------+
+| cname | pname  | qty  | pdate      |
++-------+--------+------+------------+
+| Ravi  | Laptop |    1 | 2025-08-01 |
+| Sham  | Mouse  |    2 | 2025-08-01 |
++-------+--------+------+------------+
+2 rows in set (0.066 sec)
+
+mysql> desc v1
+    -> ;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cname | varchar(20) | YES  |     | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
+| qty   | int         | YES  |     | NULL    |       |
+| pdate | date        | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.132 sec)
+
+mysql> select * from v1;
++-------+--------+------+------------+
+| cname | pname  | qty  | pdate      |
++-------+--------+------+------------+
+| Ravi  | Laptop |    1 | 2025-08-01 |
+| Sham  | Mouse  |    2 | 2025-08-01 |
++-------+--------+------+------------+
+2 rows in set (0.009 sec)
+
+mysql> insert into v1 vlaues('Ram','Keyboard',3,2025-08-01)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'vlaues('Ram','Keyboard',3,2025-08-01)' at line 1
+mysql> select * from v1;
++-------+--------+------+------------+
+| cname | pname  | qty  | pdate      |
++-------+--------+------+------------+
+| Ravi  | Laptop |    1 | 2025-08-01 |
+| Sham  | Mouse  |    2 | 2025-08-01 |
++-------+--------+------+------------+
+2 rows in set (0.008 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> select * from v1;
++-------+--------+------+------------+
+| cname | pname  | qty  | pdate      |
++-------+--------+------+------------+
+| Ravi  | Laptop |    1 | 2025-08-01 |
+| Sham  | Mouse  |    2 | 2025-08-01 |
++-------+--------+------+------------+
+2 rows in set (0.010 sec)
+
+mysql> SF
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SF' at line 1
+mysql> insert into v1 vlaues('Ram','Keyboard',3,2025-08-01)^C
+mysql> ^C
+mysql> INSERT INTO customer (cid, cname, caddress, contact)
+    -> VALUES (103, 'Ram', 'Chennai', 9123456789);
+Query OK, 1 row affected (0.107 sec)
+
+mysql> INSERT INTO purchase (puid, cid, pid, qty, pdate)
+    -> VALUES (3, 103, 3, 3, '2025-08-01');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`product1`.`purchase`, CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `product` (`pid`))
+mysql> INSERT INTO product (pid, pname, price, discount, mfn)
+    -> VALUES (3, 'Keyboard', 1200, 8, 'Dell');
+Query OK, 1 row affected (0.064 sec)
+
+mysql> INSERT INTO product (pid, pname, price, discount, mfn)
+    -> VALUES (3, 'Keyboard', 1200, 8, 'Dell');
+ERROR 1062 (23000): Duplicate entry '3' for key 'product.PRIMARY'
+mysql> INSERT INTO product (pid, pname, price, discount, mfn)
+    -> VALUES (3, 'Keyboard', 1200, 8, 'Dell');
+ERROR 1062 (23000): Duplicate entry '3' for key 'product.PRIMARY'
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> select * from product;
++-----+----------+-------+----------+----------+
+| pid | pname    | price | discount | mfn      |
++-----+----------+-------+----------+----------+
+|   1 | Laptop   | 60000 |       10 | HP       |
+|   2 | Mouse    |   500 |        5 | Logitech |
+|   3 | Keyboard |  1200 |        8 | Dell     |
++-----+----------+-------+----------+----------+
+3 rows in set (0.004 sec)
+
+mysql> select * from customer;
++-----+-------+----------+------------+
+| cid | cname | caddress | contact    |
++-----+-------+----------+------------+
+| 101 | Ravi  | Pune     |     123456 |
+| 102 | Sham  | Mumbai   |     987654 |
+| 103 | Ram   | Chennai  | 9123456789 |
++-----+-------+----------+------------+
+3 rows in set (0.004 sec)
+
+mysql> select * from purches'
+    '> ;
+    '> ;
+    '>
+    '>
+    '> as;
+    '> ^C
+mysql> select * from purches;
+ERROR 1146 (42S02): Table 'product1.purches' doesn't exist
+mysql> select * from purche;
+ERROR 1146 (42S02): Table 'product1.purche' doesn't exist
+mysql> select * from purchase;
++------+------+------+------+------------+
+| puid | cid  | pid  | qty  | pdate      |
++------+------+------+------+------------+
+|    1 |  101 |    1 |    1 | 2025-08-01 |
+|    2 |  102 |    2 |    2 | 2025-08-01 |
++------+------+------+------+------------+
+2 rows in set (0.004 sec)
+
+mysql> desc v1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cname | varchar(20) | YES  |     | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
+| qty   | int         | YES  |     | NULL    |       |
+| pdate | date        | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.015 sec)
+
+mysql> insert into purchase values(3,103,3,3,2025-08-01)
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> ;
+ERROR 1292 (22007): Incorrect date value: '2016' for column 'pdate' at row 1
+mysql> insert into purchase values(3,103,3,3,'2025-08-0'1)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1)' at line 1
+mysql> insert into purchase values(3,103,3,3,'2025-08-01');
+Query OK, 1 row affected (0.105 sec)
+
+mysql> select * from purchese ;
+ERROR 1146 (42S02): Table 'product1.purchese' doesn't exist
+mysql> select * from purchase ;
++------+------+------+------+------------+
+| puid | cid  | pid  | qty  | pdate      |
++------+------+------+------+------------+
+|    1 |  101 |    1 |    1 | 2025-08-01 |
+|    2 |  102 |    2 |    2 | 2025-08-01 |
+|    3 |  103 |    3 |    3 | 2025-08-01 |
++------+------+------+------+------------+
+3 rows in set (0.004 sec)
+
+mysql>                                                                                                                                                                                                                          INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> INSERT INTO v_purchase VALUES (4, 104, 2, 1, '2025-08-02');
+ERROR 1146 (42S02): Table 'product1.v_purchase' doesn't exist
+mysql> desc v1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cname | varchar(20) | YES  |     | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
+| qty   | int         | YES  |     | NULL    |       |
+| pdate | date        | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.013 sec)
+
+mysql> desc v2;
+ERROR 1146 (42S02): Table 'product1.v2' doesn't exist
+mysql> select sum(price) from product;
++------------+
+| sum(price) |
++------------+
+|      61700 |
++------------+
+1 row in set (0.085 sec)
+
+mysql> select min(price) from product;
++------------+
+| min(price) |
++------------+
+|        500 |
++------------+
+1 row in set (0.062 sec)
+
+mysql> select max(price) from product;
++------------+
+| max(price) |
++------------+
+|      60000 |
++------------+
+1 row in set (0.004 sec)
+
+mysql> select sqrt(price) from product;
++--------------------+
+| sqrt(price)        |
++--------------------+
+| 244.94897427831782 |
+| 22.360679774997898 |
+|  34.64101615137755 |
++--------------------+
+3 rows in set (0.004 sec)
+
+mysql> select abs(price) from product;
++------------+
+| abs(price) |
++------------+
+|      60000 |
+|        500 |
+|       1200 |
++------------+
+3 rows in set (0.073 sec)
+
+mysql> desc product;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| pid      | int         | NO   | PRI | NULL    |       |
+| pname    | varchar(20) | YES  |     | NULL    |       |
+| price    | int         | YES  |     | NULL    |       |
+| discount | int         | YES  |     | NULL    |       |
+| mfn      | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.012 sec)
+
+mysql> insert into product values(4,'Hi',14235.531,80,'Jadu');
+Query OK, 1 row affected (0.095 sec)
+
+mysql> insert into product values(4,'Btw',-5455.531,80,'Hey');
+ERROR 1062 (23000): Duplicate entry '4' for key 'product.PRIMARY'
+mysql> insert into product values(5,'Btw',-5455.531,80,'Hey');
+Query OK, 1 row affected (0.089 sec)
+
+mysql> select round(price) from product;
++--------------+
+| round(price) |
++--------------+
+|        60000 |
+|          500 |
+|         1200 |
+|        14236 |
+|        -5456 |
++--------------+
+5 rows in set (0.064 sec)
+
+mysql> select abs(price) from product;
++------------+
+| abs(price) |
++------------+
+|      60000 |
+|        500 |
+|       1200 |
+|      14236 |
+|       5456 |
++------------+
+5 rows in set (0.004 sec)
+
+mysql> select concat('hello','word');
++------------------------+
+| concat('hello','word') |
++------------------------+
+| helloword              |
++------------------------+
+1 row in set (0.003 sec)
+
+mysql> select concat_ws('hello','word');
++---------------------------+
+| concat_ws('hello','word') |
++---------------------------+
+| word                      |
++---------------------------+
+1 row in set (0.003 sec)
+
+mysql> select concat_ws('hello',NULL,'word');
++--------------------------------+
+| concat_ws('hello',NULL,'word') |
++--------------------------------+
+| word                           |
++--------------------------------+
+1 row in set (0.003 sec)
+
+mysql> select concat_ws('hello ',NULL,'word');
++---------------------------------+
+| concat_ws('hello ',NULL,'word') |
++---------------------------------+
+| word                            |
++---------------------------------+
+1 row in set (0.003 sec)
+
+mysql> select concat_ws('hello ',NULL,'word','AHwbd');
++-----------------------------------------+
+| concat_ws('hello ',NULL,'word','AHwbd') |
++-----------------------------------------+
+| wordhello AHwbd                         |
++-----------------------------------------+
+1 row in set (0.003 sec)
+
+mysql> select concat_ws('hello ',NULL,'word','AHwbd');
++-----------------------------------------+
+| concat_ws('hello ',NULL,'word','AHwbd') |
++-----------------------------------------+
+| wordhello AHwbd                         |
++-----------------------------------------+
+1 row in set (0.003 sec)
+
+mysql> select concat_ws('hello',NULL,'word');
++--------------------------------+
+| concat_ws('hello',NULL,'word') |
++--------------------------------+
+| word                           |
++--------------------------------+
+1 row in set (0.003 sec)
+
+mysql> select concat_ws(' hello',NULL,'word');
++---------------------------------+
+| concat_ws(' hello',NULL,'word') |
++---------------------------------+
+| word                            |
++---------------------------------+
+1 row in set (0.003 sec)
+
+mysql>
