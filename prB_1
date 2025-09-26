@@ -1,0 +1,121 @@
+use Demo
+switched to db Demo
+db.createCollection("Stud")
+{ ok: 1 }
+use Demo1
+switched to db Demo1
+use Demo
+switched to db Demo
+db.Stud.insertOne({name : "Kalpak" , Roll : 18 , class : TE})
+ReferenceError: TE is not defined
+db.Stud.insertOne({name : "Kalpak" , roll : 18 , class : "TE"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('68d61eeb1f272f1fb3befedf')
+}
+db.Stud.insertMany([{name : "Ram" , roll : 17 , class : "BE"} , {name : "Sham" , roll : 19 , class : "SE"} , {name : "Harshad" , roll : 16 , class : "FE"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68d61f6f1f272f1fb3befee0'),
+    '1': ObjectId('68d61f6f1f272f1fb3befee1'),
+    '2': ObjectId('68d61f6f1f272f1fb3befee2')
+  }
+}
+db.Stud.find()
+{
+  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
+  name: 'Kalpak',
+  roll: 18,
+  class: 'TE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee0'),
+  name: 'Ram',
+  roll: 17,
+  class: 'BE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee1'),
+  name: 'Sham',
+  roll: 19,
+  class: 'SE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee2'),
+  name: 'Harshad',
+  roll: 16,
+  class: 'FE'
+}
+db.Stud.find({roll : 18})
+{
+  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
+  name: 'Kalpak',
+  roll: 18,
+  class: 'TE'
+}
+db.Stud.updateOne({name : Ram} , {roll : 20})
+ReferenceError: Ram is not defined
+db.Stud.updateOne({name : "Ram"} , {roll : 20})
+MongoInvalidArgumentError: Update document requires atomic operators
+ 
+db.Stud.find()
+{
+  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
+  name: 'Kalpak',
+  roll: 18,
+  class: 'TE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee0'),
+  name: 'Ram',
+  roll: 17,
+  class: 'BE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee1'),
+  name: 'Sham',
+  roll: 19,
+  class: 'SE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee2'),
+  name: 'Harshad',
+  roll: 16,
+  class: 'FE'
+}
+db.Stud.updateOne({name : "Ram"} , {$set: {roll : 20}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.Stud.find()
+{
+  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
+  name: 'Kalpak',
+  roll: 18,
+  class: 'TE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee0'),
+  name: 'Ram',
+  roll: 20,
+  class: 'BE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee1'),
+  name: 'Sham',
+  roll: 19,
+  class: 'SE'
+}
+{
+  _id: ObjectId('68d61f6f1f272f1fb3befee2'),
+  name: 'Harshad',
+  roll: 16,
+  class: 'FE'
+}
+Demo
+
