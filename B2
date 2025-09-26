@@ -1,0 +1,320 @@
+use company
+switched to db company
+db.createCollection("emp","salar")
+MongoServerError[CommandNotFound]: no such command: '0'
+db.createcol
+company.createcol
+db.createCollection("emp")
+{ ok: 1 }
+db.emp.insertOne({name : "Kalpak" , role : "CEO" , salary : 80000 , address : "Pune"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('68d644a7a1dd33e3c6b0ce08')
+}
+db.emp.find()
+{
+  _id: ObjectId('68d644a7a1dd33e3c6b0ce08'),
+  name: 'Kalpak',
+  role: 'CEO',
+  salary: 80000,
+  address: 'Pune'
+}
+db.emp.insertMany({{name : "Ram" , role : "HR" , salary : 70000 , address : "Pimpari"} , {name : "Sham" , role : "MR" , salary : 60000 , address : "Chikhali"}})
+SyntaxError: Unexpected token (1:19)
+
+[0m[31m[1m>[22m[39m[90m 1 |[39m db[33m.[39memp[33m.[39minsertMany({{name [33m:[39m [32m"Ram"[39m [33m,[39m role [33m:[39m [32m"HR"[39m [33m,[39m salary [33m:[39m [35m70000[39m [33m,[39m address [33m:[39m [32m"Pimpari"[39m} [33m,[39m {name [33m:[39m [32m"Sham"[39m [33m,[39m role [33m:[39m [32m"MR"[39m [33m,[39m salary [33m:[39m [35m60000[39m [33m,[39m address [33m:[39m [32m"Chikhali"[39m}})
+ [90m   |[39m                    [31m[1m^[22m[39m[0m
+db.emp.insertMany([{name : "Ram" , role : "HR" , salary : 70000 , address : "Pimpari"} , {name : "Sham" , role : "MR" , salary : 60000 , address : "Chikhali"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68d64523a1dd33e3c6b0ce09'),
+    '1': ObjectId('68d64523a1dd33e3c6b0ce0a')
+  }
+}
+db.emp.insertMany([{name : "Tejas" , role : "SE" , salary : 50000 , address : "Pimpari"} , {name : "Om" , role : "SE" , salary : 50000 , address : "Chikhali"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68d64546a1dd33e3c6b0ce0b'),
+    '1': ObjectId('68d64546a1dd33e3c6b0ce0c')
+  }
+}
+db.emp.insertMany([{name : "Parth" , role : "JE" , salary : 30000 , address : "Pune"} , {name : "Rohan" , role : "JE" , salary : 30000 , address : "Ramwadi"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68d6458ca1dd33e3c6b0ce0d'),
+    '1': ObjectId('68d6458ca1dd33e3c6b0ce0e')
+  }
+}
+db.emp.find()
+{
+  _id: ObjectId('68d644a7a1dd33e3c6b0ce08'),
+  name: 'Kalpak',
+  role: 'CEO',
+  salary: 80000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce09'),
+  name: 'Ram',
+  role: 'HR',
+  salary: 70000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce0a'),
+  name: 'Sham',
+  role: 'MR',
+  salary: 60000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0b'),
+  name: 'Tejas',
+  role: 'SE',
+  salary: 50000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0c'),
+  name: 'Om',
+  role: 'SE',
+  salary: 50000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0d'),
+  name: 'Parth',
+  role: 'JE',
+  salary: 30000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0e'),
+  name: 'Rohan',
+  role: 'JE',
+  salary: 30000,
+  address: 'Ramwadi'
+}
+db.emp.find({address:{$ne : "Mumbai"}})
+{
+  _id: ObjectId('68d644a7a1dd33e3c6b0ce08'),
+  name: 'Kalpak',
+  role: 'CEO',
+  salary: 80000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce09'),
+  name: 'Ram',
+  role: 'HR',
+  salary: 70000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce0a'),
+  name: 'Sham',
+  role: 'MR',
+  salary: 60000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0b'),
+  name: 'Tejas',
+  role: 'SE',
+  salary: 50000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0c'),
+  name: 'Om',
+  role: 'SE',
+  salary: 50000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0d'),
+  name: 'Parth',
+  role: 'JE',
+  salary: 30000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0e'),
+  name: 'Rohan',
+  role: 'JE',
+  salary: 30000,
+  address: 'Ramwadi'
+}
+db.emp.find({address:{$ne : "Pune"}})
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce09'),
+  name: 'Ram',
+  role: 'HR',
+  salary: 70000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce0a'),
+  name: 'Sham',
+  role: 'MR',
+  salary: 60000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0b'),
+  name: 'Tejas',
+  role: 'SE',
+  salary: 50000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0c'),
+  name: 'Om',
+  role: 'SE',
+  salary: 50000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0e'),
+  name: 'Rohan',
+  role: 'JE',
+  salary: 30000,
+  address: 'Ramwadi'
+}
+db.emp.find({address : "Pune"})
+{
+  _id: ObjectId('68d644a7a1dd33e3c6b0ce08'),
+  name: 'Kalpak',
+  role: 'CEO',
+  salary: 80000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0d'),
+  name: 'Parth',
+  role: 'JE',
+  salary: 30000,
+  address: 'Pune'
+}
+db.emp.find({address : "MR"})
+db.emp.find({role : "MR"})
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce0a'),
+  name: 'Sham',
+  role: 'MR',
+  salary: 60000,
+  address: 'Chikhali'
+}
+db.emp.find({salary : {$gt : 60000}})
+{
+  _id: ObjectId('68d644a7a1dd33e3c6b0ce08'),
+  name: 'Kalpak',
+  role: 'CEO',
+  salary: 80000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce09'),
+  name: 'Ram',
+  role: 'HR',
+  salary: 70000,
+  address: 'Pimpari'
+}
+db.emp.updateMany({ salary : {$lt : 50000}} , {$inc : {salary : 3000}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+db.emp.find()
+{
+  _id: ObjectId('68d644a7a1dd33e3c6b0ce08'),
+  name: 'Kalpak',
+  role: 'CEO',
+  salary: 80000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce09'),
+  name: 'Ram',
+  role: 'HR',
+  salary: 70000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce0a'),
+  name: 'Sham',
+  role: 'MR',
+  salary: 60000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0b'),
+  name: 'Tejas',
+  role: 'SE',
+  salary: 50000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0c'),
+  name: 'Om',
+  role: 'SE',
+  salary: 50000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0d'),
+  name: 'Parth',
+  role: 'JE',
+  salary: 33000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d6458ca1dd33e3c6b0ce0e'),
+  name: 'Rohan',
+  role: 'JE',
+  salary: 33000,
+  address: 'Ramwadi'
+}
+db.emp.find({salary : {$gte : 50000}})
+{
+  _id: ObjectId('68d644a7a1dd33e3c6b0ce08'),
+  name: 'Kalpak',
+  role: 'CEO',
+  salary: 80000,
+  address: 'Pune'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce09'),
+  name: 'Ram',
+  role: 'HR',
+  salary: 70000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64523a1dd33e3c6b0ce0a'),
+  name: 'Sham',
+  role: 'MR',
+  salary: 60000,
+  address: 'Chikhali'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0b'),
+  name: 'Tejas',
+  role: 'SE',
+  salary: 50000,
+  address: 'Pimpari'
+}
+{
+  _id: ObjectId('68d64546a1dd33e3c6b0ce0c'),
+  name: 'Om',
+  role: 'SE',
+  salary: 50000,
+  address: 'Chikhali'
+}
+company
