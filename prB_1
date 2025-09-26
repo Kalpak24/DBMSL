@@ -1,90 +1,63 @@
-use Demo
-switched to db Demo
-db.createCollection("Stud")
-{ ok: 1 }
+use Demo 1
+already on db Demo
 use Demo1
 switched to db Demo1
-use Demo
-switched to db Demo
-db.Stud.insertOne({name : "Kalpak" , Roll : 18 , class : TE})
-ReferenceError: TE is not defined
-db.Stud.insertOne({name : "Kalpak" , roll : 18 , class : "TE"})
+db.createCollection("emp")
+{ ok: 1 }
+db.emp.insertOne({name : "Kalpak" , roll : "CEO" , salary : 98000})
 {
   acknowledged: true,
-  insertedId: ObjectId('68d61eeb1f272f1fb3befedf')
+  insertedId: ObjectId('68d622751f272f1fb3befee3')
 }
-db.Stud.insertMany([{name : "Ram" , roll : 17 , class : "BE"} , {name : "Sham" , roll : 19 , class : "SE"} , {name : "Harshad" , roll : 16 , class : "FE"}])
+db.emp.insertMan([ {name : "Kalpak" , roll : "CEO" , salary : 98000} , {name : "Ram" , roll : "HR" , salary : 60000} ,{name : "Sham" , roll : "AC" , salary : 50000} ,{name : "Arjun" , roll : "TE" , salary : 40000}])
+TypeError: db.emp.insertMan is not a function
+db.emp.insertMany([ {name : "Kalpak" , roll : "CEO" , salary : 98000} , {name : "Ram" , roll : "HR" , salary : 60000} ,{name : "Sham" , roll : "AC" , salary : 50000} ,{name : "Arjun" , roll : "TE" , salary : 40000}])
 {
   acknowledged: true,
   insertedIds: {
-    '0': ObjectId('68d61f6f1f272f1fb3befee0'),
-    '1': ObjectId('68d61f6f1f272f1fb3befee1'),
-    '2': ObjectId('68d61f6f1f272f1fb3befee2')
+    '0': ObjectId('68d622f91f272f1fb3befee4'),
+    '1': ObjectId('68d622f91f272f1fb3befee5'),
+    '2': ObjectId('68d622f91f272f1fb3befee6'),
+    '3': ObjectId('68d622f91f272f1fb3befee7')
   }
 }
-db.Stud.find()
+db.emp.find()
 {
-  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
+  _id: ObjectId('68d622751f272f1fb3befee3'),
   name: 'Kalpak',
-  roll: 18,
-  class: 'TE'
+  roll: 'CEO',
+  salary: 98000
 }
 {
-  _id: ObjectId('68d61f6f1f272f1fb3befee0'),
+  _id: ObjectId('68d622f91f272f1fb3befee4'),
+  name: 'Kalpak',
+  roll: 'CEO',
+  salary: 98000
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee5'),
   name: 'Ram',
-  roll: 17,
-  class: 'BE'
+  roll: 'HR',
+  salary: 60000
 }
 {
-  _id: ObjectId('68d61f6f1f272f1fb3befee1'),
+  _id: ObjectId('68d622f91f272f1fb3befee6'),
   name: 'Sham',
-  roll: 19,
-  class: 'SE'
+  roll: 'AC',
+  salary: 50000
 }
 {
-  _id: ObjectId('68d61f6f1f272f1fb3befee2'),
-  name: 'Harshad',
-  roll: 16,
-  class: 'FE'
+  _id: ObjectId('68d622f91f272f1fb3befee7'),
+  name: 'Arjun',
+  roll: 'TE',
+  salary: 40000
 }
-db.Stud.find({roll : 18})
-{
-  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
-  name: 'Kalpak',
-  roll: 18,
-  class: 'TE'
-}
-db.Stud.updateOne({name : Ram} , {roll : 20})
-ReferenceError: Ram is not defined
-db.Stud.updateOne({name : "Ram"} , {roll : 20})
-MongoInvalidArgumentError: Update document requires atomic operators
- 
-db.Stud.find()
-{
-  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
-  name: 'Kalpak',
-  roll: 18,
-  class: 'TE'
-}
-{
-  _id: ObjectId('68d61f6f1f272f1fb3befee0'),
-  name: 'Ram',
-  roll: 17,
-  class: 'BE'
-}
-{
-  _id: ObjectId('68d61f6f1f272f1fb3befee1'),
-  name: 'Sham',
-  roll: 19,
-  class: 'SE'
-}
-{
-  _id: ObjectId('68d61f6f1f272f1fb3befee2'),
-  name: 'Harshad',
-  roll: 16,
-  class: 'FE'
-}
-db.Stud.updateOne({name : "Ram"} , {$set: {roll : 20}})
+db.emp.updateOne({roll : "CEO" , {$set:{salary: 90000}}})
+SyntaxError: Unexpected token (1:33)
+
+[0m[31m[1m>[22m[39m[90m 1 |[39m db[33m.[39memp[33m.[39mupdateOne({roll [33m:[39m [32m"CEO"[39m [33m,[39m {$set[33m:[39m{salary[33m:[39m [35m90000[39m}}})
+ [90m   |[39m                                  [31m[1m^[22m[39m[0m
+db.emp.updateOne({roll : "CEO" }, {$set:{salary: 90000}})
 {
   acknowledged: true,
   insertedId: null,
@@ -92,30 +65,111 @@ db.Stud.updateOne({name : "Ram"} , {$set: {roll : 20}})
   modifiedCount: 1,
   upsertedCount: 0
 }
-db.Stud.find()
+use demo
+switched to db demo
+use Demo
+switched to db Demo
+db.emp.find()
+use Demo1
+switched to db Demo1
+db.emp.find()
 {
-  _id: ObjectId('68d61eeb1f272f1fb3befedf'),
+  _id: ObjectId('68d622751f272f1fb3befee3'),
   name: 'Kalpak',
-  roll: 18,
-  class: 'TE'
+  roll: 'CEO',
+  salary: 90000
 }
 {
-  _id: ObjectId('68d61f6f1f272f1fb3befee0'),
+  _id: ObjectId('68d622f91f272f1fb3befee4'),
+  name: 'Kalpak',
+  roll: 'CEO',
+  salary: 98000
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee5'),
   name: 'Ram',
-  roll: 20,
-  class: 'BE'
+  roll: 'HR',
+  salary: 60000
 }
 {
-  _id: ObjectId('68d61f6f1f272f1fb3befee1'),
+  _id: ObjectId('68d622f91f272f1fb3befee6'),
   name: 'Sham',
-  roll: 19,
-  class: 'SE'
+  roll: 'AC',
+  salary: 50000
 }
 {
-  _id: ObjectId('68d61f6f1f272f1fb3befee2'),
-  name: 'Harshad',
-  roll: 16,
-  class: 'FE'
+  _id: ObjectId('68d622f91f272f1fb3befee7'),
+  name: 'Arjun',
+  roll: 'TE',
+  salary: 40000
 }
-Demo
-
+db.emp.find({$ne:{roll:"HR"}})
+MongoServerError[BadValue]: unknown top level operator: $ne. If you have a field name that starts with a '$' symbol, consider using $getField or $setField.
+db.emp.updateMany(
+  { roll: { $exists: true } },
+  { $rename: { "roll": "role" } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+db.emp.find()
+{
+  _id: ObjectId('68d622751f272f1fb3befee3'),
+  name: 'Kalpak',
+  salary: 90000,
+  role: 'CEO'
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee4'),
+  name: 'Kalpak',
+  salary: 98000,
+  role: 'CEO'
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee5'),
+  name: 'Ram',
+  salary: 60000,
+  role: 'HR'
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee6'),
+  name: 'Sham',
+  salary: 50000,
+  role: 'AC'
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee7'),
+  name: 'Arjun',
+  salary: 40000,
+  role: 'TE'
+}
+db.emp.find({role:{$ne:"HR"}})
+{
+  _id: ObjectId('68d622751f272f1fb3befee3'),
+  name: 'Kalpak',
+  salary: 90000,
+  role: 'CEO'
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee4'),
+  name: 'Kalpak',
+  salary: 98000,
+  role: 'CEO'
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee6'),
+  name: 'Sham',
+  salary: 50000,
+  role: 'AC'
+}
+{
+  _id: ObjectId('68d622f91f272f1fb3befee7'),
+  name: 'Arjun',
+  salary: 40000,
+  role: 'TE'
+}
+Demo1
